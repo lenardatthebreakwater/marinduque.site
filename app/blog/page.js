@@ -36,8 +36,9 @@ function formatDate(iso) {
   })
 }
 
-export default function BlogPage({ searchParams }) {
-  const activeCategory = (searchParams?.category || 'all').toLowerCase()
+export default async function BlogPage({ searchParams }) {
+  const params = await searchParams
+  const activeCategory = (params?.category || 'all').toLowerCase()
   const allPosts = getAllPosts()
   const posts = allPosts.filter((post) => postMatchesCategory(post, activeCategory))
 
