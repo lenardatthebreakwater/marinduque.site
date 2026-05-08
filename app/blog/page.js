@@ -97,8 +97,8 @@ export default async function BlogPage({ searchParams }) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post) => (
+            <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
               <Card
-                key={post.slug}
                 className="bg-[#e8dfc5] border-0 overflow-hidden ambient-shadow flex flex-col group hover:-translate-y-1 transition-transform duration-300"
               >
                 <div className="h-48 tropical-gradient w-full" />
@@ -115,12 +115,8 @@ export default async function BlogPage({ searchParams }) {
                     {post.description}
                   </p>
                 </CardContent>
-                <CardFooter>
-                  <Button asChild variant="ghost" className="text-[#b35305] hover:text-[#8e3f00] font-semibold text-sm p-0 h-auto">
-                    <Link href={`/blog/${post.slug}`}>Read More →</Link>
-                  </Button>
-                </CardFooter>
               </Card>
+            </Link>
             ))}
           </div>
         )}

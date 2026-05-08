@@ -101,33 +101,31 @@ export default function HomePage() {
 										<h3 className="font-display text-xl font-semibold text-[#1b1c1c]">Article {i}</h3>
 									</CardHeader>
 									<CardContent>
-										<p className="text-[#3e494a] text-sm leading-relaxed">Your first posts will appear here once generated.</p>
+										<p className="text-[#3e494a] text-sm leading-relaxed">New stories coming soon. Check back shortly.</p>
 									</CardContent>
 								</Card>
 							))
 							: latestPosts.map((post) => (
-								<Card
-									key={post.slug}
-									className="bg-[#e8dfc5] border-0 overflow-hidden ambient-shadow flex flex-col group hover:-translate-y-1 transition-transform duration-300"
-								>
-									<div className="h-44 tropical-gradient w-full" />
-									<CardHeader>
-										<Badge className="w-fit bg-[#006067]/10 text-[#006067] border-0 text-xs uppercase tracking-widest">
-											{formatDate(post.date)}
-										</Badge>
-										<h3 className="font-display text-xl font-semibold text-[#1b1c1c] group-hover:text-[#006067] transition-colors leading-snug">
-											{post.title}
-										</h3>
-									</CardHeader>
-									<CardContent className="flex-grow">
-										<p className="text-[#3e494a] text-sm leading-relaxed line-clamp-3">{post.description}</p>
-									</CardContent>
-									<CardFooter>
-										<Button asChild variant="ghost" className="text-[#b35305] hover:text-[#8e3f00] font-semibold text-sm p-0 h-auto">
-											<Link href={`/blog/${post.slug}`}>Read Article →</Link>
-										</Button>
-									</CardFooter>
-								</Card>
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
+                <Card
+                  className="bg-[#e8dfc5] border-0 overflow-hidden ambient-shadow flex flex-col group hover:-translate-y-1 transition-transform duration-300"
+                >
+                  <div className="h-48 tropical-gradient w-full" />
+                  <CardHeader>
+                    <Badge className="w-fit bg-[#006067]/10 text-[#006067] border-0 text-xs uppercase tracking-widest">
+                      {formatDate(post.date)}
+                    </Badge>
+                    <h2 className="font-display text-2xl font-semibold text-[#1b1c1c] group-hover:text-[#006067] transition-colors leading-snug">
+                      {post.title}
+                    </h2>
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <p className="text-[#3e494a] text-sm leading-relaxed line-clamp-3">
+                      {post.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
 							))}
 					</div>
 				</section>
