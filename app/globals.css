@@ -1,0 +1,111 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Marinduque Design System ─────────────────────────────────── */
+@theme inline {
+  /* Fonts */
+  --font-display: var(--font-newsreader);
+  --font-body: var(--font-be-vietnam-pro);
+
+  /* Brand Colors */
+  --color-primary: #006067;
+  --color-primary-container: #007b83;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #d0fbff;
+  --color-primary-fixed: #96f1fa;
+  --color-primary-fixed-dim: #7ad5dd;
+  --color-surface-tint: #006970;
+  --color-inverse-primary: #7ad5dd;
+
+  --color-secondary: #645e49;
+  --color-secondary-container: #e8dfc5;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #68634d;
+
+  --color-tertiary: #8e3f00;
+  --color-tertiary-container: #b35305;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #fff0e9;
+
+  --color-surface: #fcf9f8;
+  --color-surface-dim: #dcd9d9;
+  --color-surface-bright: #fcf9f8;
+  --color-surface-container: #f0eded;
+  --color-surface-container-low: #f6f3f2;
+  --color-surface-container-high: #eae7e7;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-highest: #e4e2e1;
+  --color-surface-variant: #e4e2e1;
+
+  --color-on-surface: #1b1c1c;
+  --color-on-surface-variant: #3e494a;
+  --color-inverse-surface: #303030;
+  --color-inverse-on-surface: #f3f0f0;
+
+  --color-outline: #6e797a;
+  --color-outline-variant: #bdc9ca;
+
+  --color-background: #fcf9f8;
+  --color-on-background: #1b1c1c;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+/* ─── Base styles ──────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-[#bdc9ca] outline-[#006067]/50;
+  }
+
+  body {
+    @apply bg-[#fcf9f8] text-[#1b1c1c];
+    font-family: var(--font-be-vietnam-pro), sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-newsreader), serif;
+  }
+}
+
+/* ─── Utilities ────────────────────────────────────────────────── */
+@layer utilities {
+  .font-display {
+    font-family: var(--font-newsreader), serif;
+  }
+
+  .font-body {
+    font-family: var(--font-be-vietnam-pro), sans-serif;
+  }
+
+  .tropical-gradient {
+    background: linear-gradient(135deg, #007B83 0%, #00A3E0 100%);
+  }
+
+  .ambient-shadow {
+    box-shadow: 0 10px 25px -5px rgba(0, 123, 131, 0.08), 0 8px 10px -6px rgba(0, 123, 131, 0.05);
+  }
+
+  .ambient-shadow-hover {
+    box-shadow: 0 20px 40px -5px rgba(0, 123, 131, 0.15), 0 10px 20px -6px rgba(0, 123, 131, 0.1);
+  }
+}
