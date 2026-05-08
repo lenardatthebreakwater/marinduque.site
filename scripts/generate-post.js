@@ -98,11 +98,10 @@ async function generateBlogContent(keyword, meta, type = "longtail") {
   const system = `You are an expert SEO content writer who writes engaging, 
 authoritative blog posts that rank well and provide genuine value to readers.
 Write in a clear, friendly, professional tone. Avoid fluff and filler sentences.
-${
-  isPillar
-    ? "This is a PILLAR post — write a broad, comprehensive overview that introduces all major subtopics. Each section should be informative but not exhaustively detailed, since readers will click through to dedicated posts for depth."
-    : "This is a LONGTAIL post — write a specific, detailed deep-dive. Be practical and thorough. Include steps, examples, and actionable advice."
-}`;
+${isPillar
+      ? "This is a PILLAR post — write a broad, comprehensive overview that introduces all major subtopics. Each section should be informative but not exhaustively detailed, since readers will click through to dedicated posts for depth."
+      : "This is a LONGTAIL post — write a specific, detailed deep-dive. Be practical and thorough. Include steps, examples, and actionable advice."
+    }`;
 
   const user = `Write a complete blog post for the keyword: "${keyword}"
 
@@ -121,11 +120,10 @@ Requirements:
 - Start with a strong 2-3 sentence intro that hooks the reader and includes the main keyword
 - Use ## for H2 headings (from the outline) and ### for H3 subheadings where helpful
 - Include practical tips, examples, or steps inside each section
-${
-  isPillar
-    ? "- Each section should briefly introduce the subtopic and naturally invite the reader to explore more\n- End with a conclusion that summarizes all subtopics covered"
-    : "- Go deep on each section with specific details, not general advice\n- End with a clear, actionable conclusion the reader can apply immediately"
-}
+${isPillar
+      ? "- Each section should briefly introduce the subtopic and naturally invite the reader to explore more\n- End with a conclusion that summarizes all subtopics covered"
+      : "- Go deep on each section with specific details, not general advice\n- End with a clear, actionable conclusion the reader can apply immediately"
+    }
 - Do NOT include frontmatter or the main H1 title — just the body content starting from the intro paragraph
 - Output plain MDX content only`;
 
