@@ -48,6 +48,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: draft/new-post-${{ github.run_number }}
           base: main
+          commit-message: "draft: new blog post [skip ci]"
           title: "📝 Review new post before publishing"
           body: |
             A new blog post has been generated and is ready for review.
@@ -66,3 +67,6 @@ jobs:
 
             ## When ready
             Click **Merge pull request** to publish the post live. 🌴
+          add-paths: |
+            content/
+            keywords.json      
