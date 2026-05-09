@@ -33,15 +33,6 @@ jobs:
           SITE_URL: ${{ secrets.SITE_URL }}
         run: node scripts/generate-post.js
 
-      - name: Commit to draft branch
-        run: |
-          git config user.name "blog-bot"
-          git config user.email "blog-bot@users.noreply.github.com"
-          git checkout -b draft/new-post-${{ github.run_number }}
-          git add content/ keywords.json
-          git diff --cached --quiet || git commit -m "draft: new blog post [skip ci]"
-          git push origin draft/new-post-${{ github.run_number }}
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
