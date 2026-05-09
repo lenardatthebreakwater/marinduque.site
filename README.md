@@ -8,7 +8,7 @@ A travel and lifestyle blog about Marinduque, the Heart of the Philippines. Cove
 
 ## About
 
-Marinduque Guide is an AI-powered content site targeting tourists, travellers, and locals interested in Marinduque, a small island province in the Philippines. Content is automatically generated and published on a schedule using the Gemini API.
+Marinduque Guide is an AI-powered content site targeting tourists, travellers, and locals interested in Marinduque, a small island province in the Philippines. Content is automatically generated on a schedule using the Gemini API, reviewed manually for accuracy, then published via GitHub pull requests.
 
 ---
 
@@ -22,9 +22,8 @@ Marinduque Guide is an AI-powered content site targeting tourists, travellers, a
 | next-mdx-remote | MDX rendering |
 | gray-matter | Frontmatter parsing |
 | Gemini API | AI content generation |
-| GitHub Actions | Automation + publishing |
+| GitHub Actions | Automation + draft PR creation |
 | Vercel | Hosting |
-| cron-job.org | Scheduled post generation |
 
 ---
 
@@ -116,14 +115,50 @@ Go to repo → **Actions** → **Generate Blog Post** → **Run workflow**
 
 ---
 
+## Review & Publishing Workflow
+
+Since AI can occasionally hallucinate place names or facts about Marinduque, every generated post goes through a manual review before publishing.
+
+### How it works
+
+```
+GitHub Actions runs
+        ↓
+Gemini generates the post
+        ↓
+Bot creates a draft branch + Pull Request
+        ↓
+You review the post on GitHub
+        ↓
+Edit directly in the browser if needed
+        ↓
+Merge PR → Vercel deploys → Post is live ✅
+```
+
+### Reviewing a PR
+
+1. Go to your repo → **Pull requests** tab
+2. Click the PR titled **"📝 Review new post before publishing"**
+3. Click **Files changed** to read the generated MDX
+4. Check the post using this checklist:
+   - [ ] All place names are real locations in Marinduque
+   - [ ] No beaches, landmarks, or locations from other provinces
+   - [ ] Facts and descriptions are accurate
+   - [ ] Title and description look good
+5. To edit: click the ✏️ pencil icon on the file → edit → **Commit changes**
+6. When satisfied: click **Merge pull request** → post goes live
+
+### If the post is bad
+
+Just close the PR without merging. The keyword will remain as `done` in `keywords.json` but no post will be published. You can manually reset it to `pending` if you want to regenerate it.
+
+---
+
 ## Deployment
 
 Hosted on **Vercel**. Auto-deploys on every push to `main`.
 
-Posts are published automatically via:
-- **cron-job.org** — triggers the pipeline Mon/Wed/Fri
-- **GitHub Actions** — runs the generator and pushes the new MDX file
-- **Vercel** — detects the push and deploys
+Schedule: GitHub Actions cron runs **Mon/Wed/Fri at 4:00 PM Philippine time** (8:00 AM UTC).
 
 ### GitHub Secrets required
 
@@ -132,8 +167,20 @@ Posts are published automatically via:
 | `GEMINI_API_KEY` | Gemini API key |
 | `SITE_URL` | `https://marinduque.site` |
 
+### GitHub Actions permissions required
+
+Go to repo → **Settings** → **Actions** → **General**:
+- **Workflow permissions** → Read and write permissions ✅
+- **Allow GitHub Actions to create and approve pull requests** ✅
+
+---
+
+## Gemini API Free Tier Limits
+
+The free tier allows **20 requests/day** for `gemini-2.5-flash`. Each post uses 3 requests, so you can generate up to **6 posts/day**. The cron runs 3x/week making 3 requests each time — well within limits during normal operation. Avoid running the workflow multiple times in the same day during testing.
+
 ---
 
 ## Powered by
 
-[Blogirator](https://github.com/YOURUSERNAME/blogirator) — an open source AI blog pipeline template.
+[Blogirator](https://github.com/lenardatthebreakwater/blogirator) — an open source AI blog pipeline template.
