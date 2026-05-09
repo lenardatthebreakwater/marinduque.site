@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write # Needed to push generated files
+      contents: write      # Needed to push generated files
+      pull-requests: write # Needed to create pull requests
 
     steps:
       - name: Checkout repo
@@ -32,10 +33,36 @@ jobs:
           SITE_URL: ${{ secrets.SITE_URL }}
         run: node scripts/generate-post.js
 
-      - name: Commit and push generated post
+      - name: Commit to draft branch
         run: |
           git config user.name "blog-bot"
           git config user.email "blog-bot@users.noreply.github.com"
+          git checkout -b draft/new-post-${{ github.run_number }}
           git add content/ keywords.json
-          git diff --cached --quiet || git commit -m "feat(blog): auto-generate new SEO post [skip ci]"
-          git push
+          git diff --cached --quiet || git commit -m "draft: new blog post [skip ci]"
+          git push origin draft/new-post-${{ github.run_number }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: draft/new-post-${{ github.run_number }}
+          base: main
+          title: "📝 Review new post before publishing"
+          body: |
+            A new blog post has been generated and is ready for review.
+
+            ## Before merging, please check:
+            - [ ] All place names in Marinduque are accurate
+            - [ ] No beaches, landmarks, or locations from other provinces
+            - [ ] Facts and descriptions are correct
+            - [ ] Title and description look good
+
+            ## How to edit
+            1. Click the **Files changed** tab above
+            2. Click the ✏️ pencil icon on the MDX file
+            3. Make your edits directly in the browser
+            4. Click **Commit changes**
+
+            ## When ready
+            Click **Merge pull request** to publish the post live. 🌴
