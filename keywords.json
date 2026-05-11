@@ -37,7 +37,9 @@
   {
     "keyword": "Marinduque travel guide",
     "type": "pillar",
-    "status": "pending"
+    "status": "done",
+    "slug": "marinduque-travel-guide",
+    "generatedAt": "2026-05-11"
   },
   {
     "keyword": "Marinduque local products",
