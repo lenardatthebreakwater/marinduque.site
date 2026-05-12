@@ -1,15 +1,40 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { getAllPosts } from '@/lib/posts'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { CATEGORIES } from '@/lib/categories'
+import { CATEGORIES, postMatchesCategory } from '@/lib/categories'
 
-export const metadata = {
-  title: 'Blog | Marinduque Guide',
-  description: 'Stories, tips, and hidden gems from Marinduque.',
+export async function generateStaticParams() {
+  // Generate routes for all categories except 'All'
+  return CATEGORIES.filter(c => c !== 'All').map((cat) => ({
+    category: cat.toLowerCase(),
+  }))
+}
+
+export async function generateMetadata({ params }) {
+  const { category } = await params
+  
+  // Validate category
+  const validCategory = CATEGORIES.find(c => c.toLowerCase() === category)
+  if (!validCategory) return {}
+
+  const titleMap = {
+    tourism: 'Tourism & Travel Guide',
+    food: 'Food & Local Delicacies',
+    festivals: 'Festivals & Culture',
+    living: 'Living & Lifestyle',
+  }
+
+  const titlePrefix = titleMap[category] || validCategory
+  
+  return {
+    title: `${titlePrefix} | Marinduque Guide`,
+    description: `Read the latest articles about ${titlePrefix.toLowerCase()} in Marinduque.`,
+  }
 }
 
 function formatDate(iso) {
@@ -20,9 +45,17 @@ function formatDate(iso) {
   })
 }
 
-export default function BlogPage() {
-  const activeCategory = 'all'
-  const posts = getAllPosts()
+export default async function CategoryPage({ params }) {
+  const { category } = await params
+  
+  const validCategory = CATEGORIES.find(c => c.toLowerCase() === category)
+  if (!validCategory) {
+    notFound()
+  }
+
+  const activeCategory = category
+  const allPosts = getAllPosts()
+  const posts = allPosts.filter((post) => postMatchesCategory(post, activeCategory))
 
   return (
     <>
@@ -31,8 +64,8 @@ export default function BlogPage() {
 
         {/* Header */}
         <header className="mb-10 pt-8">
-          <h1 className="font-display text-5xl md:text-6xl font-semibold text-[#1b1c1c] mb-3">
-            The Latest from the Island
+          <h1 className="font-display text-5xl md:text-6xl font-semibold text-[#1b1c1c] mb-3 capitalize">
+            {validCategory} in Marinduque
           </h1>
           <p className="text-[#3e494a] text-lg max-w-2xl leading-relaxed">
             Discover stories, tips, and hidden gems from Marinduque. Your journey starts here.
@@ -64,13 +97,16 @@ export default function BlogPage() {
 
         {/* Results count */}
         <p className="text-[#3e494a] text-sm mb-8">
-          {posts.length} article{posts.length !== 1 ? 's' : ''}
+          {posts.length} article{posts.length !== 1 ? 's' : ''} in {validCategory}
         </p>
 
         {/* Blog Grid */}
         {posts.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-[#3e494a] text-lg mb-4">No posts found yet.</p>
+            <p className="text-[#3e494a] text-lg mb-4">No posts found in this category yet.</p>
+            <Button asChild variant="outline" className="border-[#006067] text-[#006067] rounded-full">
+              <Link href="/blog">View all posts</Link>
+            </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

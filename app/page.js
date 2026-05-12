@@ -141,7 +141,7 @@ export default function HomePage() {
 							return (
 								<Link
 									key={cat.name}
-									href={`/blog?category=${cat.name.toLowerCase()}`}
+									href={`/blog/category/${cat.name.toLowerCase()}`}
 									className={`${cat.color} ${cat.span} rounded-xl p-6 flex flex-col justify-end text-white group hover:opacity-90 transition-opacity relative overflow-hidden`}
 								>
 									<div className="absolute top-4 right-4 opacity-20 group-hover:opacity-30 transition-opacity">
